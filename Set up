@@ -1,25 +1,3 @@
-Author: Jan Puzon
-This is a basic instruction on how to use github
-I barely know it myself but I can give useful tips.
-If you can learn how to use github please share to the group. :)
-
-*We will discuss what will be pushed to the MAIN BRANCH once we decide if the code is good!*
-
-*Both Netbeans or Eclipse IDE will be acceptable for this project since we are going to be using java.
-
-So to start off make your on branch. This branch will be a way to assess what people can do and allow for you to make changes to your own 
-code without messing with the final product. If you don't know I will be able to help you.
-
-Next, would be to push the code via your IDE files. It's not hard at all, just copy paste and not forgetting to use " // " to comment.
-
-*We are all able to compare code with each other by uing the "Create Pull Request" and then choosing the base and the compare.*
-
-To upload file, just click on "upload files" and then drag the file and upload it to your branch.
-
-*PlEASE REMEMBER WHERE THE WORKSPACE YOU SAVE THE FILES. THAT IS THOSE FILES YOU WANT TO PUSH!*
-
-If we meet, we are able to use github desktop to push and pull code in live time.
-
 Email: jankarlp@gmail.com
 Author: Jan Puzon
 This is a basic instruction on how to use github
