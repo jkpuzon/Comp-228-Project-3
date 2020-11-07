@@ -5,7 +5,7 @@ import nodes.LLNode;
 
 public class DLList<E> implements ListInterface<E> {
 	
-	protected int frontIterator, backIterator;
+	protected int frontIterator, backIterator; // Not sure what data type this is i don't think it's an int just put that as a place holder
 	protected LLNode<E> head;
 	protected LLNode<E> tail;
 	
