@@ -64,6 +64,11 @@ public class DLList<E> implements ListInterface<E> {
 		
 		return null;
 	}
+	
+	public E getPrevItem() {
+		
+		return null;
+	}
 
 	public E find(E element) {
 		
