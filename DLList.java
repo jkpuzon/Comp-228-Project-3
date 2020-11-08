@@ -81,5 +81,9 @@ public class DLList<E> implements ListInterface<E> {
 		
 		return null;
 	}
+	
+	public String toString(){
+		
+	}
 
 }
