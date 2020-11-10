@@ -5,9 +5,11 @@ import nodes.LLNode;
 
 public class DLList<E> implements ListInterface<E> {
 	
+	protected boolean found;
 	protected int frontIterator, backIterator; // Not sure what data type this is i don't think it's an int just put that as a place holder
 	protected LLNode<E> head;
 	protected LLNode<E> tail;
+	protected LLNode<E> location;
 	protected LLNode<E> current; // I believe we use this node to point to what ever we are searching for in the find methods, then in the methods... 
 				     // we use the current to make whatever operation we need to use on that element whether it's with the remove, contains, or get methods
 				     // after we are done using current in the methods it should be set to null
