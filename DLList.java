@@ -6,6 +6,7 @@ import nodes.LLNode;
 public class DLList<E> implements ListInterface<E> {
 	
 	protected boolean found;
+	protected int size;
 	protected LLNode<E> frontIterator
 	protected LLNode<E> backIterator;
 	protected LLNode<E> head;
@@ -27,6 +28,7 @@ public class DLList<E> implements ListInterface<E> {
 			location.getNext().setPrev(location.getPrev());
 			size--;
 			return true;
+		}
 		else{
 			return false;
 		}
