@@ -10,7 +10,8 @@ public class DLList<E> implements ListInterface<E> {
 	protected LLNode<E> backIterator;
 	protected LLNode<E> head;
 	protected LLNode<E> tail;
-	protected LLNode<E> location; 
+	protected LLNode<E> location;
+	protected LLNode<E> current;
 
 	@Override
 	public void add(E element) {
