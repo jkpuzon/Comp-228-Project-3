@@ -21,7 +21,7 @@ public class DLList<E> implements ListInterface<E> {
 	@Override
 	public boolean remove(E element) {
 		find(element);
-		if(location.getInfo() != null){
+		if(found){
 			location.getPrev().setNext(location.getNext());
 			location.getNext().setPrev(location.getPrev());
 			size--;
