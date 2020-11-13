@@ -7,7 +7,8 @@ public class SortedDoublyLinkedList<E> implements ListInterface {
 	LLNode<E> head, tail;
 	E current;
 	private boolean found = false, isChanged = false;
-	private int location = 0;
+	private LLNode<E> location = null;
+	private LLNode<E> frontIterator;
 	@SuppressWarnings("unchecked")
 	E[] binarySearch = (E[]) new Object[size()];
 
@@ -53,7 +54,7 @@ public class SortedDoublyLinkedList<E> implements ListInterface {
 		
 	}
 	
-	private void resetBackIterator() {
+	private void resetBackIterator() {	// Francis's responsibility
 		
 	}
 
@@ -69,6 +70,18 @@ public class SortedDoublyLinkedList<E> implements ListInterface {
 	
 	public void find(E element) {
 		found = false;
+		location = null;
+		resetIterator();
+		while (frontIterator.getInfo() != null) {
+			frontIterator.getNext();
+			if (frontIterator.getInfo() == element) {
+				location = frontIterator;
+				found = true;
+				break;
+			}
+		}
+		/*
+		found = false;
 		location = 0;
 		current = head.getInfo();
 		resetIterator();
@@ -79,11 +92,50 @@ public class SortedDoublyLinkedList<E> implements ListInterface {
 			}
 			location++;
 			current = getNextItem();
+		
 		}
+		*/
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void find2(E element) {
+		// Set found
+		// Set location. Location is LLNode<E>.
+		// binarySearch is 
+		found = false;
+		location = null;
+		E match = null;
+		resetIterator();
+		
+		if (isChanged) {
+			binarySearch = (E[]) new Object[size()];// Make a new array if the list has been changed
+			for (int i = 0; i < size(); i++) {
+				binarySearch[i] = frontIterator.getNext().getInfo();
+		}
+		
+		int low = 0, high = size() - 1, current = 0;
+		while (low < high) {
+			if (((Comparable<E>)binarySearch[current]).compareTo(element) == 0) {
+				found = true;
+				match = binarySearch[current];
+			}
+			else if (((Comparable<E>)binarySearch[current]).compareTo(element) > 0) {
+				high = current;
+				current = (high + low) / 2;
+			}
+			else {
+				low = current;
+				current = (high + low) / 2;
+			}
+		}
+		resetIterator();
+		frontIterator.getNext();
+		while (frontIterator != null) {
+			if (frontIterator.getInfo().equals(match)) {
+				location = frontIterator;
+			}
+		}
+		/*
 		found = false;	// In the case that the find()/find2() methods were recently called
 		resetIterator();
 		if (isChanged) {
@@ -109,5 +161,7 @@ public class SortedDoublyLinkedList<E> implements ListInterface {
 			}
 			
 		}
+		*/
 	}
+}
 }
