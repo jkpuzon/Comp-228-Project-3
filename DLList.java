@@ -7,8 +7,8 @@ public class DLList<E> implements ListInterface<E> {
 	
 	protected boolean found;
 	protected int size;
-	protected LLNode<E> frontIterator
-	protected LLNode<E> backIterator;
+	protected LLNode<E> forwardIterator;
+	protected LLNode<E> backwardIterator;
 	protected LLNode<E> head;
 	protected LLNode<E> tail;
 	protected LLNode<E> location;
@@ -16,6 +16,15 @@ public class DLList<E> implements ListInterface<E> {
 
 	@Override
 	public void add(E element) {
+		LLNode<E> newNode = new LLNode<E>(element);
+		if(isEmpty()) {
+			head = newNode;
+			tail = newNode;
+		}
+		else {
+			tail.setNext(newNode);
+		}
+		
 		
 		
 	}
@@ -46,8 +55,13 @@ public class DLList<E> implements ListInterface<E> {
 
 	@Override
 	public boolean contains(E element) {
-		
+		find(element);
+		if(found) {
+			return true;
+		}
+		else {
 		return false;
+		}
 	}
 
 	@Override
@@ -58,16 +72,16 @@ public class DLList<E> implements ListInterface<E> {
 
 	@Override
 	public void resetIterator() {
-		frontIterator = head;
+		forwardIterator = head;
 	}
 	
 	public void resetBackIterator() {
-		backIterator = tail;
+		backwardIterator = tail;
 	}
 
 	@Override
 	public E getNextItem() {
-		return frontIterator.getNext().getInfo();
+		return forwardIterator.getNext().getInfo();
 	}
 	
 	public E getPrevItem() {
