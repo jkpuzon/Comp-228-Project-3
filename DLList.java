@@ -31,17 +31,17 @@ public class DLList<E> implements ListInterface<E> {
 	public boolean remove(E element) {
 		find(element);
 		if(found){
-			if(location.getNext() != null && location.getPrev() != null) {
-				location.getPrev().setNext(location.getNext());
-				location.getNext().setPrev(location.getPrev());
+			if(location.getNextItem() != null && location.getPrevItem() != null) {
+				location.getPrevItem().setNext(location.getNext());
+				location.getNextItem().setPrev(location.getPrev());
 			}
 			else if(location.getNext() == null) {
-				tail = tail.getPrev();
+				tail = tail.getPrevItem();
 				tail.setNext(null);
 			}
 			else if(location.getPrev() == null) {
-				head = head.getNext();
-				head.getPrev().setInfo(null);
+				head = head.getNextItem();
+				head.getPrevItem().setInfo(null);
 			}
 			size--;
 			return true;
