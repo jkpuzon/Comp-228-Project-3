@@ -1,0 +1,10 @@
+	public void resetBackIterator() {
+		currentBackIteratorPos = (this.size - 1);
+	}
+
+	@Override
+	public void resetIterator() {
+		
+		currentIteratorPos = 0;
+
+	}
