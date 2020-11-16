@@ -15,75 +15,33 @@ public class DLList<E> implements ListInterface<E> {
 	protected LLNode<E> location;
 	protected LLNode<E> current;
 
-	@Override
-	public void add(E element) {
-		// Add the element passed as a parameter to the appropriate position in the list so that the list remains sorted.
+	public static add(E element) {
+		LLNode current;
 		
-		//Adding the first element in the list
-		if(size == 0) {
-			head = new LLNode<E>(element);
-			next = null;
-			prev = null;
-			tail = head;
-			size++;
-			return;
-		}
-		else 
-		{//new Node is less than the head and is going to be inserted before head
-			if(element.compareTo(head.getInfo()) < 0) {
-				
-				//Creates a new node with head next = head and prev = null
-				LLNode<E> newNode = new LLNode<E>(element);
-				newNode.setNext(head);
-				newNode.setPrev(null);
-				
-				//Set the old head previous = newNode
-				head.setPrev(newNode);
-				//new node will become new head
-				head = newNode;
-				//Increase size which represents number of elements in the list
-				size++;
-				return;
-				
-			}
-			else 
-			{
-				//Inserting after head but before tail- somewhere in the middle of the list
-				curr = head.getNext();
-				while(curr != null)
-				{
-					if(element.compareTo(curr.getInfo()) <= 0)
-					{
-						//inserting before current 
-						
-						LLNode<E> newNode = new LLNode<E>(element);
-						newNode.setNext(curr);
-						newNode.setPrev(curr.getPrev());
-						
-						curr.getPrev().setNext(newNode);
-						
-						curr.setPrev(newNode);
-						size++;
-						return;
-					}
-					curr = curr.getNext();
-				}
-				//Inserting at the tail
 		LLNode<E> newNode = new LLNode<E>(element);
-		newNode.setNext(null);
-		newNode.setPrev(tail);
-		
-		tail.setNext(newNode);
-		tail = newNode;
-		size++;
-		return;
-			}
+		if (head == null) {
+            head = newNode;
 		}
+		else if (head.getInfo().compareTo(newNode.getInfo()) > 0){
+			newNode.setNext(head);
+			newNode.getPrev().setInfo(newNode);
+			head= newNode;
+		}
+		else {
+			current = head;
+			 while(current.getNextItem() != null && current.getNextItem() < newNode.getInfo()) {
+				 current = current.getNextItem();
+			 }
+			newNode.setNext(current.getNextItem());
 			
-		
-		
+			if (current.getNextItem() != null) {
+				newNoew.getNextItem.setPrevItem(newNode);
+			}
+			current.setNextItem(newNode);
+			newNode.setPreV(current); 
+  		}
 	}
-
+		
 	@Override
 	public boolean remove(E element) {
 		find(element);
@@ -114,7 +72,6 @@ public class DLList<E> implements ListInterface<E> {
 
 	@Override
 	public int size() {
-		
 		return size;
 	}
 
@@ -125,10 +82,18 @@ public class DLList<E> implements ListInterface<E> {
 
 	@Override
 	public boolean contains(E element) {
-		
-		return false;
+		/* Return true if the list contains an item such that item.equals(element) 
+	 	is true for the element passed as a parameter to the contains method; otherwise, return false.
+		*/
+		//Not sure if this the correct way this method is suppose to use find and find2 and have not tested 
+		find(element);
+		find2(element);
+		if(found) 
+			return true;
+		else
+			return false;
 	}
-
+	
 	@Override
 	public E get(E element) {
 		find(element);
