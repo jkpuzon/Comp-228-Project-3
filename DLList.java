@@ -1,26 +1,26 @@
 package adts;
 
 import interfaces.ListInterface;
-import nodes.LLNode;
+import nodes.DLLNode;
 
 public class DLList<E> implements ListInterface<E> {
 	
 	protected boolean found;
 	protected boolean isChanged = false;
 	protected int size = 0;
-	protected LLNode<E> forwardIterator;
-	protected LLNode<E> backwardIterator;
-	protected LLNode<E> head;
-	protected LLNode<E> tail;
-	protected LLNode<E> location;
-	protected LLNode<E> current;
+	protected DLLNode<E> forwardIterator;
+	protected DLLNode<E> backwardIterator;
+	protected DLLNode<E> head;
+	protected DLLNode<E> tail;
+	protected DLLNode<E> location;
+	protected DLLNode<E> current;
 
-	public static add(E element) {
-		LLNode current;
+	public void add(E element) {
+		DLLNode<E> current;
 		
-		LLNode<E> newNode = new LLNode<E>(element);
+		DLLNode<E> newNode = new DLLNode<E>(element);
 		if (head == null) {
-            head = newNode;
+            		head = newNode;
 		}
 		else if (head.getInfo().compareTo(newNode.getInfo()) > 0){
 			newNode.setNext(head);
@@ -48,19 +48,19 @@ public class DLList<E> implements ListInterface<E> {
 		find(element);
 		if(found){
 			// not head nor tail side of list
-			if(location.getNextItem() != null && location.getPrevItem() != null) {
-				location.getPrevItem().setNext(location.getNext());
-				location.getNextItem().setPrev(location.getPrevItem());
+			if(location.getNext() != null && location.getPrev() != null) {
+				location.getPrev().setNext(location.getNext());
+				location.getNext().setPrev(location.getPrev());
 			}
 			// tail end of list
 			else if(location.getNext() == null) {
-				tail = tail.getPrevItem();
+				tail = tail.getPrev();
 				tail.setNext(null);
 			}
 			// head end of list
-			else if(location.getPrevItem() == null) {
-				head = head.getNextItem();
-				head.getPrevItem().setInfo(null);
+			else if(location.getPrev() == null) {
+				head = head.getNext();
+				head.setPrev(null);
 			}
 			size--;
 			return true;
@@ -68,7 +68,6 @@ public class DLList<E> implements ListInterface<E> {
 		else{
 			return false;
 		}
-		return false;
 	}
 
 	@Override
@@ -128,6 +127,9 @@ public class DLList<E> implements ListInterface<E> {
 	public E getPrevItem() {
 		E temp = backwardIterator.getInfo();
 		backwardIterator = backwardIterator.getPrev();
+		if(backwardIterator == null) {
+			backwardIterator = tail;
+		}
 		return temp;
 	}
 
@@ -189,12 +191,10 @@ public class DLList<E> implements ListInterface<E> {
 	
 	public String toString() {
 		String str = " ";
-		LLNode<E> current = head;
+		DLLNode<E> current = head;
 		while(current != null) {
 			str = str + current.getInfo() + "\n";
 			current = current.getNext();
 		}
 		return str;
 	}
-
-}
