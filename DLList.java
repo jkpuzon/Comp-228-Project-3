@@ -22,23 +22,23 @@ public class DLList<E> implements ListInterface<E> {
 		if (head == null) {
             		head = newNode;
 		}
-		else if (head.getInfo().compareTo(newNode.getInfo()) > 0){
+		else if (((Comparable<E>) head.getInfo()).compareTo(newNode.getInfo()) > 0){
 			newNode.setNext(head);
 			newNode.getPrev().setInfo(newNode);
 			head= newNode;
 		}
 		else {
 			current = head;
-			 while(current.getNextItem() != null && current.getNextItem() < newNode.getInfo()) {
-				 current = current.getNextItem();
+			 while(current.getNext() != null && current.getInfo() < newNode.getInfo()) {
+				 current = current.getNext();
 			 }
-			newNode.setNext(current.getNextItem());
+			newNode.setNext(current.getNext());
 			
-			if (current.getNextItem() != null) {
-				newNode.getNextItem.setPrevItem(newNode);
+			if (current.getNext() != null) {
+				newNode.getNext().setPrev(newNode);
 			}
-			current.setNextItem(newNode);
-			newNode.setPreV(current); 
+			current.setNext(newNode);
+			newNode.setPrev(current); 
   		}
 		size++;
 	}
