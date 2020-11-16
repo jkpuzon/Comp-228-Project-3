@@ -24,8 +24,8 @@ public class DLList<E> implements ListInterface<E> {
 		}
 		else if (((Comparable<E>) head.getInfo()).compareTo(newNode.getInfo()) > 0){
 			newNode.setNext(head);
-			newNode.getPrev().setInfo(newNode);
-			head= newNode;
+			newNode.setPrev(newNode);
+			head = newNode;
 		}
 		else {
 			current = head;
