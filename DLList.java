@@ -40,6 +40,7 @@ public class DLList<E> implements ListInterface<E> {
 			current.setNextItem(newNode);
 			newNode.setPreV(current); 
   		}
+		size++;
 	}
 		
 	@Override
