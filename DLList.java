@@ -35,7 +35,7 @@ public class DLList<E> implements ListInterface<E> {
 			newNode.setNext(current.getNextItem());
 			
 			if (current.getNextItem() != null) {
-				newNoew.getNextItem.setPrevItem(newNode);
+				newNode.getNextItem.setPrevItem(newNode);
 			}
 			current.setNextItem(newNode);
 			newNode.setPreV(current); 
