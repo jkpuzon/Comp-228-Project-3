@@ -130,12 +130,12 @@ public class DLList<E> implements ListInterface<E> {
 		location = null;
 		resetIterator();
 		while (forwardIterator.getInfo() != null) {
-			forwardIterator.getNext();
 			if (forwardIterator.getInfo() == element) {
 				location = forwardIterator;
 				found = true;
 				break;
 			}
+			forwardIterator = forwardIterator.getNext();
 		}
 	}
 	
