@@ -117,13 +117,18 @@ public class DLList<E> implements ListInterface<E> {
 
 	@Override
 	public E getNextItem() {
+		E temp = forwardIterator.getInfo();
 		forwardIterator = forwardIterator.getNext();
-		return forwardIterator.getInfo();
+		if(forwardIterator == null){
+			forwardIterator = head;
+		}
+		return temp;
 	}
 	
 	public E getPrevItem() {
-		
-		return null;
+		E temp = backwardIterator.getInfo();
+		backwardIterator = backwardIterator.getPrev();
+		return temp;
 	}
 
 	public void find(E element) {
