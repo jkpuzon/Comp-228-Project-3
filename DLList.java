@@ -11,8 +11,8 @@ public class DLList<E> implements ListInterface<E> {
 	protected DLLNode<E> forwardIterator;
 	protected DLLNode<E> backwardIterator;
 	protected DLLNode<E> head;
-	protected DLLNode<E> tail;
-	protected DLLNode<E> location;
+	protected DLLNode<E> tail = null;
+	protected DLLNode<E> location = null;
 	protected DLLNode<E> current;
 
 	public void add(E element) {
@@ -20,7 +20,7 @@ public class DLList<E> implements ListInterface<E> {
 		
 		DLLNode<E> newNode = new DLLNode<E>(element);
 		if (head == null) {
-            		head = newNode;
+            head = newNode;
 		}
 		else if (((Comparable<E>) head.getInfo()).compareTo(newNode.getInfo()) > 0){
 			newNode.setNext(head);
@@ -29,7 +29,7 @@ public class DLList<E> implements ListInterface<E> {
 		}
 		else {
 			current = head;
-			 while(current.getNext() != null && current.getInfo() < newNode.getInfo()) {
+			 while(current.getNext() != null && ((Comparable<E>) current.getInfo()).compareTo(newNode.getInfo()) < 0) {
 				 current = current.getNext();
 			 }
 			newNode.setNext(current.getNext());
@@ -47,7 +47,7 @@ public class DLList<E> implements ListInterface<E> {
 	public boolean remove(E element) {
 		find(element);
 		if(found){
-			// not head nor tail side of list
+			// not head or tail side of list
 			if(location.getNext() != null && location.getPrev() != null) {
 				location.getPrev().setNext(location.getNext());
 				location.getNext().setPrev(location.getPrev());
@@ -58,7 +58,7 @@ public class DLList<E> implements ListInterface<E> {
 				tail.setNext(null);
 			}
 			// head end of list
-			else if(location.getPrev() == null) {
+			else if(location == head) {
 				head = head.getNext();
 				head.setPrev(null);
 			}
@@ -81,17 +81,14 @@ public class DLList<E> implements ListInterface<E> {
 	}
 
 	@Override
-	public boolean contains(E element) {
-		/* Return true if the list contains an item such that item.equals(element) 
-	 	is true for the element passed as a parameter to the contains method; otherwise, return false.
-		*/
-		//Not sure if this the correct way this method is suppose to use find and find2 and have not tested 
+	public boolean contains(E element) { 
 		find(element);
-		find2(element);
-		if(found) 
+		if(found) {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 	}
 	
 	@Override
@@ -198,3 +195,4 @@ public class DLList<E> implements ListInterface<E> {
 		}
 		return str;
 	}
+}
