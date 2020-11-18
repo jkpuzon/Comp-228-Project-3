@@ -58,7 +58,6 @@ public class DLList<E> implements ListInterface<E> {
 	@Override
 	public boolean remove(E element) {
 		find(element);
-		//find2(element);
 		if(found){
 			// not head or tail side of list
 			if(location.getNext() != null && location.getPrev() != null) {
@@ -68,17 +67,27 @@ public class DLList<E> implements ListInterface<E> {
 			// tail end of list
 			else if(location.getNext() == null) {
 				tail = tail.getPrev();
+				if(tail == null) {
+					head = null;
+				}
+				else {
 				tail.setNext(null);
+				}
 			}
 			// head end of list
 			else if(location == head) {
 				head = head.getNext();
-				head.setPrev(null);
+				if(head == null) {
+					tail = null;
+				}
+				else {
+					head.setPrev(null);
+				}
 			}
 			size--;
 			return true;
 		}
-		else{
+		else {
 			return false;
 		}
 	}
@@ -96,6 +105,7 @@ public class DLList<E> implements ListInterface<E> {
 	@Override
 	public boolean contains(E element) {
 		find(element);
+		//find2(element);
 		if(found) {
 			return true;
 		}
@@ -147,7 +157,7 @@ public class DLList<E> implements ListInterface<E> {
 		found = false;
 		location = null;
 		resetIterator();
-		while (forwardIterator.getInfo() != null) {
+		while (forwardIterator != null) {
 			if (forwardIterator.getInfo() == element) {
 				location = forwardIterator;
 				found = true;
@@ -158,18 +168,16 @@ public class DLList<E> implements ListInterface<E> {
 	}
 	
 	public void find2(E element) {
-		// Set found
-		// Set location. Location is LLNode<E>.
-		// binarySearch is 
 		found = false;
 		location = null;
 		E match = null;
 		resetIterator();
 		
 		
-		E[] binarySearch = (E[]) new Object[size()];// Make a new array if the list has been changed
-		for (int i = 0; i < size(); i++) {
-			binarySearch[i] = getNextItem();
+		E[] binarySearch = (E[]) new Object[size()];
+		for (int i = 0; i < this.size(); i++) {
+			binarySearch[i] = forwardIterator.getInfo();
+			forwardIterator = forwardIterator.getNext();
 		}
 		
 		
@@ -189,12 +197,14 @@ public class DLList<E> implements ListInterface<E> {
 				current = (high + low) / 2;
 			}
 		}
-		resetIterator();
-		while (forwardIterator != null) {
-			if (forwardIterator.getInfo().equals(match)) {
-				location = forwardIterator;
+		if(found) {
+			resetIterator();
+			while (forwardIterator != null) {
+				if (((Comparable<E>) forwardIterator.getInfo()).compareTo(match) == 0) {
+					location = forwardIterator;
+				}
+				forwardIterator = forwardIterator.getNext();
 			}
-			forwardIterator = forwardIterator.getNext();
 		}
 			
 	}
