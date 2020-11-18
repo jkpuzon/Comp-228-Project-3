@@ -169,7 +169,7 @@ public class DLList<E> implements ListInterface<E> {
 		
 		E[] binarySearch = (E[]) new Object[size()];// Make a new array if the list has been changed
 		for (int i = 0; i < size(); i++) {
-			binarySearch[i] = forwardIterator.getNext().getInfo();
+			binarySearch[i] = getNextItem();
 		}
 		
 		
