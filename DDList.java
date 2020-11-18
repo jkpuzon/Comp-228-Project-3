@@ -1,7 +1,7 @@
 package adts;
 
 import interfaces.ListInterface;
-import nodes.LLNode;
+import nodes.DLLNode;
 
 public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 	
@@ -10,16 +10,19 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 	protected LLNode<E> next;
 	protected LLNode<E> prev;
 	protected LLNode<E> curr;
+	protected DLLNode<E> location = null;
 	
-	E current;
-	E[] binarySearch = (E[]) new Object[size()];
-	protected boolean found = false, isChanged = false;
+	protected DLLNode<E> forwardIterator;
+	protected DLLNode<E> backwardIterator;
+	
+	protected boolean found = false;
+	protected boolean isChanged = false;
 	protected int size = 0;
-	protected int location;
+
 	
 	
 	
-	//protected LLNode<E> current; 
+
 	
 
 	public DDList() {
@@ -38,7 +41,7 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 		
 		//Adding the first element in the list
 		if(size == 0) {
-			head = new LLNode<E>(element);
+			head = new DLLNode<E>(element);
 			next = null;
 			prev = null;
 			tail = head;
@@ -50,7 +53,7 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 			if(element.compareTo(head.getInfo()) < 0) {
 				
 				//Creates a new node with head next = head and prev = null
-				LLNode<E> newNode = new LLNode<E>(element);
+				DLLNode<E> newNode = new DLLNode<E>(element);
 				newNode.setNext(head);
 				newNode.setPrev(null);
 				
@@ -73,7 +76,7 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 					{
 						//inserting before current 
 						
-						LLNode<E> newNode = new LLNode<E>(element);
+						DLLNode<E> newNode = new DLLNode<E>(element);
 						newNode.setNext(curr);
 						newNode.setPrev(curr.getPrev());
 						
@@ -86,7 +89,7 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 					curr = curr.getNext();
 				}
 				//Inserting at the tail
-		LLNode<E> newNode = new LLNode<E>(element);
+		DLLNode<E> newNode = new DLLNode<E>(element);
 		newNode.setNext(null);
 		newNode.setPrev(tail);
 		
@@ -104,10 +107,29 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 
 	@Override
 	public boolean remove(E element) {
-		/*Remove the first existing item from the list such that item.equals(element), 
-		where element is the parameter passed to the remove operation, and return true;
-		if no such item exists, return false.*/
-		return false;
+		find(element);
+		if(found){
+			// not head nor tail side of list
+			if(location.getNext() != null && location.getPrev() != null) {
+				location.getPrev().setNext(location.getNext());
+				location.getNext().setPrev(location.getPrev());
+			}
+			// tail end of list
+			else if(location.getNext() == null) {
+				tail = tail.getPrev();
+				tail.setNext(null);
+			}
+			// head end of list
+			else if(location.getPrev() == null) {
+				head = head.getNext();
+				head.getPrev().setInfo(null);
+			}
+			size--;
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	@Override
@@ -124,12 +146,9 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 
 	@Override
 	public boolean contains(E element) {
-		/* Return true if the list contains an item such that item.equals(element) 
-	 	is true for the element passed as a parameter to the contains method; otherwise, return false.
-		*/
-		//Not sure if this the correct way this method is suppose to use find and find2 and have not tested 
+		
 		find(element);
-		find2(element);
+		//find2(element);
 		if(found == true) {
 			return true;
 		}
@@ -140,99 +159,112 @@ public class DDList<E extends Comparable<E>> implements ListInterface<E> {
 
 	@Override
 	public E get(E element) {
-		/* Return the first item on the list where item.equals(element) is true for the element \
-		passed as a parameter to the get method; if no such item exists, return null.
-		*/
-		/*current = head.getNext();
-		while(current != null) {
-			if(current.getInfo().equals(element))
-				return current.getInfo();
-			
-			current = current.getNext();
-		}*/
-		return null;
+		find(element);
+		if(found){
+		    return location.getInfo();
+		}
+		else {	
+		    return null;
+		}
 		
 	}
 
 	@Override
 	public void resetIterator() {
 		// resetIterator sets the current position for the getNextItem iterator to the first element on the list.
-
-
+		forwardIterator = head;
+	}
+	
+	public void resetBackIterator() {
+		backwardIterator = tail;
 	}
 
 	@Override
 	public E getNextItem() {
-		/*getNextItem returns the element at the "current" position on the list, 
-		  updating the current pointer to point to the next element on the list. 
-		  If the element returned is the last item on the list, set the value of
-		  the current position to the first element on the list.
-		 */
-		return null;
+		E temp = forwardIterator.getInfo();
+		forwardIterator = forwardIterator.getNext();
+		if(forwardIterator == null){
+			forwardIterator = head;
+		}
+		return temp;
+	
 	}
 	
 	
 	public E getPrevItem() {
-		
-		return null;
+		E temp = backwardIterator.getInfo();
+		backwardIterator = backwardIterator.getPrev();
+		if(backwardIterator == null) {
+			backwardIterator = tail;
+		}
+		return temp;
 	}
 
 	public void find(E element) {
-		//helper method doing a linear search
 		found = false;
-		location = 0;
-		current = head.getInfo();
+		location = null;
 		resetIterator();
-		while (current != null) {
-			if (current.equals(element)) {
+		while (forwardIterator.getInfo() != null) {
+			
+			if (forwardIterator.getInfo() == element) {
+				location = forwardIterator;
 				found = true;
-				return;
+				break;
 			}
-			location++;
-			current = getNextItem();
+			forwardIterator = forwardIterator.getNext();
 		}
 		
 	}
 	
 	public void find2(E element) {
-		//Helper method using a binary search
-		found = false;	// In the case that the find()/find2() methods were recently called
-		resetIterator();
-		if (isChanged) {
-			binarySearch = (E[]) new Object[size()];	// Make a new array if the list has been changed
-			for (int i = 0; i < size(); i++) {
-				binarySearch[i] = getNextItem(); 
-			}
-		}
-		int low = 0, high = size() - 1;
-		location = high / 2;
-		while (low < high) {
-			if (((Comparable<E>)(binarySearch[location])).compareTo(element) == 0) {	// Cast binarySearch[location] to the Comparable<E> interface, then compare it. // Should this be a switch statement?
-				found = true;
-				return;
-			}
-			else if (((Comparable<E>)(binarySearch[location])).compareTo(element) > 0) {
-				high = location;
-				location = (high + low) / 2;	// It can't be high / 2 because low might not be 0.
-			}
-			else {
-				low = location;
-				location = (high + low) / 2;
-			}
-			
-		}
+		// Set found
+		// Set location. Location is LLNode<E>.
+		// binarySearch is 
+				found = false;
+				location = null;
+				E match = null;
+				resetIterator();
+				
+				
+				E[] binarySearch = (E[]) new Object[size()];// Make a new array if the list has been changed
+				for (int i = 0; i < size(); i++) {
+					binarySearch[i] = forwardIterator.getNext().getInfo();
+				}
+				
+				
+				int low = 0, high = size() - 1, current = 0;
+				while (low < high) {
+					if (((Comparable<E>)binarySearch[current]).compareTo(element) == 0) {
+						found = true;
+						match = binarySearch[current];
+					}
+					else if (((Comparable<E>)binarySearch[current]).compareTo(element) > 0) {
+						high = current;
+						current = (high + low) / 2;
+					}
+					else {
+						low = current;
+						current = (high + low) / 2;
+					}
+				}
+				resetIterator();
+				while (forwardIterator != null) {
+					if (forwardIterator.getInfo().equals(match)) {
+						location = forwardIterator;
+					}
+					forwardIterator = forwardIterator.getNext();
+				}
 	}
 
 	
-	/*public String toString(){
+	public String toString(){
 	//Return an appropriately formatted string that represents this list, showing the elements in sorted order.
-		String DLL = " ";
-		current = head;
+		String str = " ";
+		DLLNode<E> current = head;
 		while(current != null) {
-			DLL = DLL + current.getInfo() + "\n";
+			str = str + current.getInfo() + "\n";
 			current = current.getNext();
 		}
-		return DLL;
-	}
-*/
+		return str;
+
 }
