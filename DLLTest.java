@@ -88,9 +88,22 @@ public class DLLTest {
 		
 		
 		
+		DLList<Integer> list2 = new DLList<>();
 		
-
+		System.out.println("\n\nLets test out an int list:");
 		
+		
+		list2.add(100);
+		list2.add(5);
+		list2.add(20);
+		list2.add(30);
+		list2.add(10);
+		list2.add(2);
+		list2.add(1);
+		
+		System.out.println(list2);
+		
+	
 	}
 
 }
