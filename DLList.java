@@ -21,6 +21,7 @@ public class DLList<E> implements ListInterface<E> {
 		if (head == null) {
 	           head = tail = newNode;
 	           head.setPrev(null);
+	           size++;
 	           return;
 		}
 		
@@ -29,6 +30,7 @@ public class DLList<E> implements ListInterface<E> {
 			head.setPrev(newNode);
 			newNode.setNext(head);
 			head = newNode;
+			size++;
 			return;
 		}
 		
@@ -36,6 +38,7 @@ public class DLList<E> implements ListInterface<E> {
 			newNode.setPrev(tail);
 			tail.setNext(newNode);
 			tail = newNode;
+			size++;
 			return;
 		}
 		
