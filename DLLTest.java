@@ -94,10 +94,12 @@ public class DLLTest {
 		
 		
 		list2.add(100);
+		list2.add(2);
 		list2.add(5);
 		list2.add(20);
 		list2.add(30);
 		list2.add(10);
+		list2.add(100);
 		list2.add(2);
 		list2.add(1);
 		
