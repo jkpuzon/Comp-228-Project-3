@@ -58,6 +58,7 @@ public class DLList<E> implements ListInterface<E> {
 	@Override
 	public boolean remove(E element) {
 		find(element);
+		//find2(element);
 		if(found){
 			// not head or tail side of list
 			if(location.getNext() != null && location.getPrev() != null) {
