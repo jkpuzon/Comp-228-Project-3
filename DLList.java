@@ -20,7 +20,7 @@ public class DLList<E> implements ListInterface<E> {
 		
 		DLLNode<E> newNode = new DLLNode<E>(element);
 		if (head == null) {
-            head = newNode;
+            head = tail = newNode;
 		}
 		else if (((Comparable<E>) head.getInfo()).compareTo(newNode.getInfo()) > 0){
 			newNode.setNext(head);
