@@ -173,18 +173,19 @@ public class DLList<E> implements ListInterface<E> {
 		}
 		
 		
-		int low = 0, high = size() - 1, current = 0;
-		while (low < high) {
+		int low = 0, high = size() - 1, current = (high - low)/2;
+		while (low <= high && found == false) {
+			
 			if (((Comparable<E>)binarySearch[current]).compareTo(element) == 0) {
 				found = true;
 				match = binarySearch[current];
 			}
 			else if (((Comparable<E>)binarySearch[current]).compareTo(element) > 0) {
-				high = current;
+				high = current -1;
 				current = (high + low) / 2;
 			}
 			else {
-				low = current;
+				low = current +1;
 				current = (high + low) / 2;
 			}
 		}
