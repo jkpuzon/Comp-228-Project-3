@@ -16,30 +16,39 @@ public class DLList<E> implements ListInterface<E> {
 	protected DLLNode<E> current;
 
 	public void add(E element) {
-		DLLNode<E> current;
-		
 		DLLNode<E> newNode = new DLLNode<E>(element);
+
 		if (head == null) {
-            		head = tail = newNode;
+	           head = tail = newNode;
+	           head.setPrev(null);
+	           return;
 		}
-		else if (((Comparable<E>) head.getInfo()).compareTo(newNode.getInfo()) > 0){
+		
+		if(((Comparable<E>) newNode.getInfo()).compareTo(head.getInfo()) < 0) {
+			newNode.setPrev(null);
+			head.setPrev(newNode);
 			newNode.setNext(head);
-			newNode.setPrev(newNode);
 			head = newNode;
+			return;
 		}
-		else {
-			current = head;
-			 while(current.getNext() != null && ((Comparable<E>) current.getInfo()).compareTo(newNode.getInfo()) < 0) {
-				 current = current.getNext();
-			 }
-			newNode.setNext(current.getNext());
+		
+		if(((Comparable<E>) newNode.getInfo()).compareTo(tail.getInfo()) > 0) {
+			newNode.setPrev(tail);
+			tail.setNext(newNode);
+			tail = newNode;
+			return;
+		}
+		
+		DLLNode<E> temp = head.getNext();
+		while(((Comparable<E>) temp.getInfo()).compareTo(newNode.getInfo()) < 0) {
+			temp = temp.getNext();
+		}
+		
+		temp.getPrev().setNext(newNode);
+		newNode.setPrev(temp.getPrev());
+		temp.setPrev(newNode);
+		newNode.setNext(temp);
 			
-			if (current.getNext() != null) {
-				newNode.getNext().setPrev(newNode);
-			}
-			current.setNext(newNode);
-			newNode.setPrev(current); 
-  		}
 		size++;
 	}
 		
