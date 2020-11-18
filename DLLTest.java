@@ -6,7 +6,7 @@ public class DLLTest {
 
 	public static void main(String[] args) {
 		
-		long[] times = new long[4];
+		long[] times = new long[5];
 		
 		DLList<String> list1 = new DLList<>();
 		
@@ -31,6 +31,8 @@ public class DLLTest {
 		
 		System.out.println("List after guitar remove");
 		System.out.println("HEAD OF LIST: \n" + list1 + "");
+		
+		System.out.println("Can we remove \"guitar\" again?: " + list1.remove("guitar") + "\n");
 		
 		list1.resetIterator();
 		System.out.println("Lets get the next item on the list from the head side: " + list1.getNextItem());
@@ -60,10 +62,10 @@ public class DLLTest {
 		estimatedTime = System.nanoTime() - startTime;
 		times[3] = estimatedTime;
 		
-		/*startTime = System.nanoTime();
-		System.out.println("Does the list contain \"guitar\"?: " + list1.contains("guitar")); null error
+		startTime = System.nanoTime();
+		System.out.println("Does the list contain \"guitar\"?: " + list1.contains("guitar")); 
 		estimatedTime = System.nanoTime() - startTime;
-		times[4] = estimatedTime;*/
+		times[4] = estimatedTime;
 		
 		System.out.println("\nLets retrive \"drums\" from the list: " + list1.get("drums"));
 		
@@ -81,29 +83,27 @@ public class DLLTest {
 		
 		// To test the times for both finds run this program twice and just comment out the other method from the main code in the 
 		// contains method to test
-		System.out.println("The linear search takes an average time of " + avgTimes + " nano seconds to search");
-		
-		
-		//System.out.println("Binary search takes an average time of " + avgTimes + " nano seconds to search");
-		
-		
+		System.out.println("The search takes an average time of " + avgTimes + " nano seconds to search");
+
 		
 		DLList<Integer> list2 = new DLList<>();
 		
-		System.out.println("\n\nLets test out an int list:");
+		System.out.println("\n\nLets test out an int list of one item:");
 		
 		
 		list2.add(100);
-		list2.add(2);
-		list2.add(5);
-		list2.add(20);
-		list2.add(30);
-		list2.add(10);
-		list2.add(100);
-		list2.add(2);
-		list2.add(1);
+		
 		
 		System.out.println(list2);
+		
+		System.out.println("\nCan we remove the only item \"100\"?: " + list2.remove(100) + "\n");
+		
+		System.out.println("\nThe list after the remove: ");
+		System.out.println(list2);
+		
+		System.out.println("\nCan we remove an item not on the list?: " + list2.remove(100));
+		
+		
 		
 	
 	}
