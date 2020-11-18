@@ -1,27 +1,43 @@
-public static add(E element) {
-		LLNode current;
-		
-		LLNode<E> newNode = new LLNode<E>(element);
-		if (head == null) {
-            head = newNode;
-		}
-		else if (head.getInfo().compareTo(newNode.getInfo()) > 0){
-			newNode.setNext(head);
-			newNode.getPrev().setInfo(newNode);
-			head= newNode;
-		}
-		else {
-			current = head;
-			 while(current.getNextItem() != null && current.getNextItem() < newNode.getInfo()) {
-				 current = current.getNextItem();
-			 }
-			newNode.setNext(current.getNextItem());
+public void add(E element) {
+
+	DLLNode<E> current;
+
+	DLLNode<E> newNode = new DLLNode<E>(element);
+
+	if (head == null) {
+           head = newNode;
+           tail = new DLLNode(null);
+           tail.setPrev(head);
+           head.setNext(tail);
+	}
+	else if (((Comparable<E>) head.getInfo()).compareTo(newNode.getInfo()) >= 0){
+		current= head;
+		head = newNode;
+		head.setNext(current);
+		current.setPrev(head);
+	}
+	else {
+		current = head.getNext();
 			
-			if (current.getNextItem() != null) {
-				newNoew.getNextItem.setPrevItem(newNode);
+		for(int i =1; i <this.size() && current.getData() != null; i ++) {
+			if((Comparable<E>) current.getInfo().compareTo(newNode.getInfo()) > 0) {
+				current = current.getNext();
 			}
-			current.setNextItem(newNode);
-			newNode.setPreV(current);
-			 
+			else if((Comparable<E>) current.getInfo().compareTo(newNode.getInfo()) <= 0){
+				current.getPrev().setNext(newNode);
+				newNode.setNext(current);
+				newNode.setNext(current.getPrev());
+				current.setPrev(newNode);
+				break;
+			}
 		}
-  }
+		if ( current == tail ) {
+			tail = newNode;
+			current.setNext(tail);
+			tail.setPrev(current);
+			  
+		}
+ 	}
+		
+	size++;
+}
