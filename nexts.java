@@ -1,17 +1,17 @@
 @Override
-	public E getPrevItem() {
-		E prev = list[currentBackIteratorPos];
-		currentBackIteratorPos--;
-		if (currentBackIteratorPos == this.size - 1) {
-		currentInteratorPos = this.size;
+	public E getNextItem() {
+		E next = forwardIterator.getInfo();
+		forwardIterator = forwardIterator.getNext();
+		if (forwardIterator == this.size - 1) {
+		forwardIterator = this.size;
 		}
 	}	
 
-@Override    
-    public E getNextItem() {
-        E next = list[currentIteratorPos];
-        currentIteratorPos++;
-        if (currentIteratorPos == this.size) {
-            currentInteratorPos = 0;
-        }
-    }
+@Override
+	public E getPrevItem() {
+		E prev = backwardsIterator.getInfo();
+		backwardsIterator = backwardsIterator.getPrev();
+		if (backwardsIterator == this.size - 1) {
+		backwardsIterator = this.size;
+		}
+	}	
