@@ -13,7 +13,6 @@ public class DLList<E> implements ListInterface<E> {
 	protected DLLNode<E> head;
 	protected DLLNode<E> tail = null;
 	protected DLLNode<E> location = null;
-	protected DLLNode<E> current;
 
 	public void add(E element) {
 		DLLNode<E> newNode = new DLLNode<E>(element);
