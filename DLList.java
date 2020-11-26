@@ -204,8 +204,7 @@ public class DLList<E> implements ListInterface<E> {
 				}
 				current = current.getNext();
 			}
-		}
-			
+		}	
 	}
 		
 	
