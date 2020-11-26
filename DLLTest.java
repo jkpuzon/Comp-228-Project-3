@@ -69,9 +69,9 @@ public class DLLTest {
 		
 		System.out.println("\nLets retrive \"drums\" from the list: " + list1.get("drums"));
 		
-		//System.out.println("\nLets attempt to retrieve \"guitar\" which isn't on the list: " + list1.get("guitar")); null error
+		System.out.println("\nLets attempt to retrieve \"guitar\" which isn't on the list: " + list1.get("guitar"));
 		
-		//System.out.println("\nLets attempt to remove \"guitar\" which isn't on the list" + list1.remove("guitar")); null error
+		System.out.println("\nLets attempt to remove \"guitar\" which isn't on the list" + list1.remove("guitar"));
 		
 		double avgTimes = 0;
 		for(int i = 0; i < times.length; i++) {
