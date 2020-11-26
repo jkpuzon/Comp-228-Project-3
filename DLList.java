@@ -152,7 +152,7 @@ public class DLList<E> implements ListInterface<E> {
 		return temp;
 	}
 
-	public void find(E element) {
+	private void find(E element) {
 		found = false;
 		location = null;
 		DLLNode<E> current = head;
@@ -166,7 +166,7 @@ public class DLList<E> implements ListInterface<E> {
 		}
 	}
 	
-	public void find2(E element) {
+	private void find2(E element) {
 		found = false;
 		location = null;
 		E match = null;
