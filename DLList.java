@@ -156,14 +156,14 @@ public class DLList<E> implements ListInterface<E> {
 	public void find(E element) {
 		found = false;
 		location = null;
-		resetIterator();
-		while (forwardIterator != null) {
-			if (forwardIterator.getInfo() == element) {
-				location = forwardIterator;
+		DLLNode<E> current = head;
+		while (current != null) {
+			if (current.getInfo().equals(element)) {
+				location = current;
 				found = true;
 				break;
 			}
-			forwardIterator = forwardIterator.getNext();
+			current = current.getNext();
 		}
 	}
 	
@@ -171,39 +171,39 @@ public class DLList<E> implements ListInterface<E> {
 		found = false;
 		location = null;
 		E match = null;
-		resetIterator();
+		DLLNode<E> current = head;
 		
 		
 		E[] binarySearch = (E[]) new Object[size()];
 		for (int i = 0; i < this.size(); i++) {
-			binarySearch[i] = forwardIterator.getInfo();
-			forwardIterator = forwardIterator.getNext();
+			binarySearch[i] = current.getInfo();
+			current = current.getNext();
 		}
 		
 		
-		int low = 0, high = size() - 1, current = (high - low)/2;
+		int low = 0, high = size() - 1, mid = (high - low)/2;
 		while (low <= high && found == false) {
 			
-			if (((Comparable<E>)binarySearch[current]).compareTo(element) == 0) {
+			if (((Comparable<E>)binarySearch[mid]).compareTo(element) == 0) {
 				found = true;
-				match = binarySearch[current];
+				match = binarySearch[mid];
 			}
-			else if (((Comparable<E>)binarySearch[current]).compareTo(element) > 0) {
-				high = current -1;
-				current = (high + low) / 2;
+			else if (((Comparable<E>)binarySearch[mid]).compareTo(element) > 0) {
+				high = mid -1;
+				mid = (high + low) / 2;
 			}
 			else {
-				low = current +1;
-				current = (high + low) / 2;
+				low = mid +1;
+				mid = (high + low) / 2;
 			}
 		}
 		if(found) {
-			resetIterator();
-			while (forwardIterator != null) {
-				if (((Comparable<E>) forwardIterator.getInfo()).compareTo(match) == 0) {
-					location = forwardIterator;
+			current = head;
+			while (current != null) {
+				if (((Comparable<E>) current.getInfo()).compareTo(match) == 0) {
+					location = current;
 				}
-				forwardIterator = forwardIterator.getNext();
+				current = current.getNext();
 			}
 		}
 			
