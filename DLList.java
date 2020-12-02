@@ -1,4 +1,4 @@
-package adts;
+package adtpackage adts;
 
 import interfaces.ListInterface;
 import nodes.DLLNode;
@@ -13,7 +13,7 @@ public class DLList<E> implements ListInterface<E> {
 	protected DLLNode<E> head;
 	protected DLLNode<E> tail = null;
 	protected DLLNode<E> location = null;
-	private E[] binarySearch;
+	private DLLNode<E>[] binarySearch;
 
 	@SuppressWarnings("unchecked")
 	public void add(E element) {
@@ -175,7 +175,6 @@ public class DLList<E> implements ListInterface<E> {
 	private void find2(E element) {
 		found = false;
 		location = null;
-		E match = null;
 		DLLNode<E> current = head;
 		
 		if (head == null)
@@ -183,28 +182,29 @@ public class DLList<E> implements ListInterface<E> {
 		
 		if (isChanged) {
 			int counter = 0;
-			binarySearch = (E[]) new Object[size()];
+			binarySearch = (DLLNode<E>[]) new Object[size()];
 			
 			while (current != null) {
-				binarySearch[counter] = current.getInfo();
+				binarySearch[counter] = current;
 				current = current.getNext();
+				counter++;
 			}
 		}
 		
 		int low = 0, high = size() - 1, mid = (high - low) / 2;
 		while (low <= high && found == false) {
 			
-			if (((Comparable<E>)binarySearch[mid]).compareTo(element) == 0) {
-				found = true;
-				match = binarySearch[mid];
+			if (((Comparable<E>)binarySearch[mid].getInfo()).compareTo(element) < 0) {
+				low = mid + 1;
+				mid = (high + low) / 2;
 			}
-			else if (((Comparable<E>)binarySearch[mid]).compareTo(element) > 0) {
+			else if (((Comparable<E>)binarySearch[mid].getInfo()).compareTo(element) > 0) {
 				high = mid - 1;
 				mid = (high + low) / 2;
 			}
 			else {
-				low = mid + 1;
-				mid = (high + low) / 2;
+				found = true;
+				location = binarySearch[mid];
 			}
 		}
 	}
