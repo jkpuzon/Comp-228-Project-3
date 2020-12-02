@@ -13,10 +13,14 @@ public class DLList<E> implements ListInterface<E> {
 	protected DLLNode<E> head;
 	protected DLLNode<E> tail = null;
 	protected DLLNode<E> location = null;
+	private DLLNode<E>[] binarySearch;
 
+	@SuppressWarnings("unchecked")
 	public void add(E element) {
+		isChanged = true;
+		
 		DLLNode<E> newNode = new DLLNode<E>(element);
-
+		
 		if (head == null) {
 	           head = tail = newNode;
 	           head.setPrev(null);
@@ -58,6 +62,7 @@ public class DLList<E> implements ListInterface<E> {
 	public boolean remove(E element) {
 		find(element);
 		if(found){
+			isChanged = true;
 			// not head or tail side of list
 			if(location.getNext() != null && location.getPrev() != null) {
 				location.getPrev().setNext(location.getNext());
@@ -103,8 +108,9 @@ public class DLList<E> implements ListInterface<E> {
 
 	@Override
 	public boolean contains(E element) {
-		find(element);
-		//find2(element);
+		//find(element);
+		find2(element);
+		isChanged = false;
 		if(found) {
 			return true;
 		}
@@ -116,6 +122,7 @@ public class DLList<E> implements ListInterface<E> {
 	@Override
 	public E get(E element) {
 		find(element);
+		isChanged = false;
 		if(found){
 		    return location.getInfo();
 		}
@@ -166,47 +173,43 @@ public class DLList<E> implements ListInterface<E> {
 		}
 	}
 	
+	@SuppressWarnings({"unchecked" })
 	private void find2(E element) {
 		found = false;
 		location = null;
-		E match = null;
 		DLLNode<E> current = head;
 		
+		if (head == null)
+			return;
 		
-		E[] binarySearch = (E[]) new Object[size()];
-		for (int i = 0; i < this.size(); i++) {
-			binarySearch[i] = current.getInfo();
-			current = current.getNext();
+		if (isChanged) {
+			int counter = 0;
+			binarySearch = new DLLNode[this.size()];
+			
+			while (current != null) {
+				binarySearch[counter] = current;
+				current = current.getNext();
+				counter++;
+			}
 		}
 		
-		
-		int low = 0, high = size() - 1, mid = (high - low)/2;
+		int low = 0, high = size() - 1, mid = (high - low) / 2;
 		while (low <= high && found == false) {
 			
-			if (((Comparable<E>)binarySearch[mid]).compareTo(element) == 0) {
-				found = true;
-				match = binarySearch[mid];
+			if (((Comparable<E>)binarySearch[mid].getInfo()).compareTo(element) < 0) {
+				low = mid + 1;
+				mid = (high + low) / 2;
 			}
-			else if (((Comparable<E>)binarySearch[mid]).compareTo(element) > 0) {
-				high = mid -1;
+			else if (((Comparable<E>)binarySearch[mid].getInfo()).compareTo(element) > 0) {
+				high = mid - 1;
 				mid = (high + low) / 2;
 			}
 			else {
-				low = mid +1;
-				mid = (high + low) / 2;
+				found = true;
+				location = binarySearch[mid];
 			}
 		}
-		if(found) {
-			current = head;
-			while (current != null) {
-				if (((Comparable<E>) current.getInfo()).compareTo(match) == 0) {
-					location = current;
-				}
-				current = current.getNext();
-			}
-		}	
 	}
-		
 	
 	public String toString() {
 		String str = "";
